@@ -1,5 +1,9 @@
 //script for calculator app
 
+//still need to fix some of the bugs for how it handles unexpected presses of operators
+//also handle how it handles someone pressing 0 when the display's already at 0
+//also handle sign change when display is empty (it creates a 0)
+
 let display = document.querySelector('#display');
 
 let first_num = null;
@@ -9,11 +13,6 @@ let clear_disp_on_next = false;
 let last_op_was_equals = false;
 
 //add event listeners to all buttons
-
-//digits
-//select all buttons
-//iterate over node list adding event listeners
-
 const createEventListeners = () => {
 
     //digit buttons event listeners
@@ -28,7 +27,31 @@ const createEventListeners = () => {
 
     //clear button event listener
     let clear_button = document.querySelector('#clear_button');
-    clear_button.addEventListener('click', () => display.innerText = "");
+    clear_button.addEventListener('click', () => {
+        display.innerText = "";
+        first_num = null;
+        second_num = null;
+        active_operator = null;
+        clear_disp_on_next = false;
+        last_op_was_equals = false;
+    });
+
+    //sign change button event listener
+    let sign_change_button = document.querySelector('#sign_change_button');
+    sign_change_button.addEventListener('click', () => display.innerText = 0 - Number(display.innerText));
+
+    //percent button event listener
+    let percent_button = document.querySelector('#percent_button');
+    percent_button.addEventListener('click', () => display.innerText = Number(display.innerText) / 100);
+
+    //decimal button event listener
+    let decimal_button = document.querySelector('#decimal_button');
+    decimal_button.addEventListener('click', () => {
+        if (display.innerText.includes('.')){
+            return;
+        }
+        display.innerText = display.innerText + '.';
+    })
 
     //add button event listener
     let add_button = document.querySelector('#add_button');
@@ -95,7 +118,9 @@ const createEventListeners = () => {
     //equals button event listener
     let equals_button = document.querySelector('#equals_button');
     equals_button.addEventListener('click', () => {
-        if (last_op_was_equals){
+        if (!first_num && !second_num){
+            return;
+        } else if (last_op_was_equals){
             first_num = display.innerText
             display.innerText = arithmetic[active_operator](first_num, second_num);
             clear_disp_on_next = true;
@@ -110,6 +135,7 @@ const createEventListeners = () => {
         }
     })
 
+
 }
 
 //define arithmetic functions in object
@@ -122,5 +148,3 @@ let arithmetic = {
 
 
 createEventListeners();
-//digit buttons should show in display when pressed
-//operator buttons should take action when pressed
