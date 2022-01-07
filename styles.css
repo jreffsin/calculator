@@ -1,15 +1,86 @@
 body {
     font-size: 2rem;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
     font-size: 2rem;
     margin: .5rem;
+    border-radius: 10px;
+}
+
+#calc_container { 
+    background-color: rgb(152, 152, 152);
+    width: 20rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding: 1rem;
+
+    box-shadow: 1px 1px 0px rgb(48, 48, 48),
+                2px 2px 0px rgb(48, 48, 48),
+                3px 3px 0px rgb(48, 48, 48);
+                
 }
 
 #display_container {
     height: 3rem;
-    border: 1px solid gray;
+    padding: .25rem 1rem;
+    background-color: rgb(208, 235, 237);
+    border-top: 2px solid rgb(82, 82, 82);
+    border-left: 2px solid rgb(82, 82, 82);
+    border-radius: 10px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+#button_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+#button_0 {
+    grid-column: span 2;
+}
+
+.digit_btn {
+    background-color: rgb(91, 91, 91);
+    color: rgb(218, 218, 218);
+}
+
+.operator {
+    background-color: rgb(232, 147, 0);
+    color: rgb(218, 218, 218);
+}
+
+#decimal_button {
+    background-color: rgb(91, 91, 91);
+    color: rgb(218, 218, 218);
+}
+
+#clear_button {
+    background-color: orangered;
+}
+
+#multiply_button, 
+#divide_button, 
+#subtract_button, 
+#add_button {
+    font-size: 2.25rem;
+}
+
+#percent_button {
+    font-size: 1.5rem;
+}
+
+#sign_change_button {
+    font-size: 1.5rem;
+}
+
+#clear_button {
+    font-size: 1.5rem;
 }
