@@ -15,7 +15,7 @@ button {
 
 #calc_container { 
     background-color: rgb(152, 152, 152);
-    width: 28rem;
+    width: 20rem;
     border: 1px solid gray;
     border-radius: 15px;
     padding: 1rem;
@@ -26,11 +26,11 @@ button {
                 
 }
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
     #calc_container {
         width: 20rem;
     }
-  }
+  } */
 
 #display_container {
     height: 3rem;
