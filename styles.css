@@ -10,6 +10,7 @@ button {
     font-size: 2rem;
     margin: .5rem;
     border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 
 #calc_container { 
@@ -36,6 +37,7 @@ button {
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
 }
 
 #button_container {
