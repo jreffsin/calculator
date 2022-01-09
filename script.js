@@ -1,9 +1,5 @@
 //script for calculator app
 
-//still need to fix some of the bugs for how it handles unexpected presses of operators
-//also handle how it handles someone pressing 0 when the display's already at 0
-//also handle sign change when display is empty (it creates a 0)
-
 let display = document.querySelector('#display');
 let first_num = null;
 let second_num = null;
@@ -18,16 +14,16 @@ const createEventListeners = () => {
     //digit buttons event listeners
     let digit_buttons = document.querySelectorAll('.digit_btn');
     digit_buttons.forEach(button => button.addEventListener('click', () => {
-        //set max size of display string
-        if (display.innerText.length == 10){
-            return;
-        }
         if (button.id == 'button_0' && display.innerText.slice(0,1) === '0' && !display.innerText.includes('.')) {
             return;
         }
         if (clear_disp_on_next){
             display.innerText = '';
             clear_disp_on_next = false;
+        }
+        //disallow additional digits after max display size is reached
+        if (display.innerText.length > 9){
+            return;
         }
         if (display.innerText == 0 && !display.innerText.includes('.')) {
             display.innerText = button.innerText;
@@ -55,7 +51,14 @@ const createEventListeners = () => {
 
     //percent button event listener
     let percent_button = document.querySelector('#percent_button');
-    percent_button.addEventListener('click', () => display.innerText = Number(display.innerText) / 100);
+    percent_button.addEventListener('click', () => {
+        let percentResult = Number(display.innerText) / 100;
+        //ensure max length fits on display
+        if (percentResult.toString().length > 10) {
+            percentResult = percentResult.toExponential(4);
+        }
+        display.innerText = percentResult;
+    });
 
     //decimal button event listener
     let decimal_button = document.querySelector('#decimal_button');
@@ -78,7 +81,7 @@ const createEventListeners = () => {
         }
         if (first_num) {
             second_num = display.innerText;
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            display.innerText = displayAnswer(first_num, second_num);
         }
 
         first_num = display.innerText;
@@ -98,7 +101,7 @@ const createEventListeners = () => {
         }
         if (first_num) {
             second_num = display.innerText;
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            display.innerText = displayAnswer(first_num, second_num);
         }
 
         first_num = display.innerText;
@@ -118,7 +121,7 @@ const createEventListeners = () => {
         }
         if (first_num) {
             second_num = display.innerText;
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            display.innerText = displayAnswer(first_num, second_num);
         }
 
         first_num = display.innerText;
@@ -138,7 +141,7 @@ const createEventListeners = () => {
         }
         if (first_num) {
             second_num = display.innerText;
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            display.innerText = displayAnswer(first_num, second_num);
         }
 
         first_num = display.innerText;
@@ -167,17 +170,17 @@ const createEventListeners = () => {
             last_button_was_op = false;
         } else if (last_op_was_equals){
             first_num = display.innerText
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            display.innerText = displayAnswer(first_num, second_num);
         } else {
             second_num = display.innerText;
-            display.innerText = arithmetic[active_operator](first_num, second_num);
+            // display.innerText = displayAnswer(first_num, second_num);
+            // display.innerText = arithmetic[active_operator](first_num, second_num).toExponential(3);
+            display.innerText = displayAnswer(first_num, second_num);
         }
         clear_disp_on_next = true;
         first_num = null;
         last_op_was_equals = true;
     })
-
-
 }
 
 //define arithmetic functions in object
@@ -188,5 +191,13 @@ let arithmetic = {
     divide: (a,b) => Number(a) / Number(b)
 }
 
+function displayAnswer (first, second){
+    let answer = arithmetic[active_operator](first, second);
+    //set max length of string to max display length, use exponents if longer
+    if (answer.toString().length > 10) {
+        answer = answer.toExponential(4);
+    }
+    return answer;
+}
 
 createEventListeners();
